@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column, String, Float, Integer
+from sqlalchemy import Column, String, Numeric, Integer
 from database import Base
 
 class User(Base):
@@ -9,8 +9,9 @@ class User(Base):
 	id = Column(Integer, primary_key=True)
 	nickname = Column(String(100))
 	open_id = Column(String(200), unique=True)
-	def __init__(self, name=None):
-		self.name = name
+	def __init__(self, nickename=None, open_id=None):
+		self.nickname = nickename
+		self.open_id = open_id
 
 	def to_json(self):
 		return {
@@ -29,15 +30,15 @@ class ParkingInfo(Base):
 	city = Column(String(20))
 	district = Column(String(20))
 	address = Column(String(2000))
-	longitude = Column(Float)
-	latitude = Column(Float)
+	longitude = Column(Numeric(16, 10))
+	latitude = Column(Numeric(16, 10))
 	fee = Column(String(100))
 	remark = Column(String(2000))
 	opening_time = Column(String(200))
 	telephone = Column(String(100))
 
 	def __init__(self, name=None, description=None, province=None, city=None, district=None, address=None, longitude=0.0, latitude=0.0, 
-				fee=None, remark=None, opening_time=None):
+				fee=None, remark=None, opening_time=None, telephone=None):
 		self.name = name
 		self.description = description
 		self.province = province
@@ -61,8 +62,8 @@ class ParkingInfo(Base):
 					'city': self.city,
 					'district': self.district,
 					'address': self.address,
-					'longitude': self.longitude,
-					'latitude': self.latitude,
+					'longitude': str(self.longitude),
+					'latitude': str(self.latitude),
 					'fee': self.fee,
 					'remark': self.remark,
 					'opening_time': self.opening_time,
