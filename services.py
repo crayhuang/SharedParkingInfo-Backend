@@ -3,27 +3,29 @@
 
 from flask_restful import Resource
 from flask import jsonify
-from models import User, ParkingInfo
+from models import ParkingInfo
 import database
-from marshmallow import Schema
+from sqlalchemy.sql import text 
+from flask import request
 
 session = database.db_session
 
 class ParkingInfoListAPI(Resource):
     def get(self):
+        cur_latitude = request.args.get('cur_latitude')
+        cur_longitude = request.args.get('cur_longitude')
         temp = []
-        result = database.engine.execute('select * from parking_info order by ACOS(SIN((23.129163 * 3.1415) / 180 ) * SIN((latitude * 3.1415) / 180 ) +COS((23.129163 * 3.1415) / 180 ) * COS((latitude * 3.1415) / 180 ) *COS((113.264435 * 3.1415) / 180 - (longitude * 3.1415) / 180 ) ) * 6380  asc')
+        sql = text('select * from parking_info order by ACOS(SIN((:latitude * 3.1415) / 180 ) * SIN((:latitude * 3.1415) / 180 ) + COS((:latitude * 3.1415) / 180 ) * COS((latitude * 3.1415) / 180 ) * COS((:longitude * 3.1415) / 180 - (:longitude * 3.1415) / 180 ) ) * 6380  asc')
+        result = database.engine.execute(sql, latitude = cur_latitude, longitude = cur_longitude)
         print(result)
-        for parking_info in result:
-            temp.append(ParkingInfo(parking_info).to_json())
-        # for parking_info in ParkingInfo.query.all():
-        #     temp.append(parking_info.to_json())
-        # for parking_info in result:
+        for item in result:
+            pi = convert2parking_info(item)
+            temp.append(pi.to_json())
         
         return jsonify(object = temp)
 
 class ParkingInfoListSearchAPI(Resource):
-    def get(self, param):
+    def get(self):
         return "Parking List Search API"
 
 class ParkingInfoAPI(Resource):
@@ -34,12 +36,19 @@ class ParkingInfoAPI(Resource):
     def put(self, parking_info_id):
         return None
 
-class nearestParkingInfoListAPI(Resource):
-    def get(self, param):
-        temp = []
-        result = database.engine.execute('''select
-                                * from parking_info order by ACOS(SIN((23.129163
-                                * 3.1415) / 180 ) * SIN((latitude * 3.1415) / 180 ) +COS((23.129163
-                                * 3.1415) / 180 ) * COS((latitude * 3.1415) / 180 ) *COS((113.264435
-                                * 3.1415) / 180 - (longitude * 3.1415) / 180 ) ) * 6380  asc''')
-        return None
+def convert2parking_info(item):
+    pi = ParkingInfo()
+    pi.id = item['id']
+    pi.address = item['address']
+    pi.city = item['city']
+    pi.description = item['description']
+    pi.district = item['district']
+    pi.fee = item['fee']
+    pi.latitude = str(item['latitude'])
+    pi.longitude = str(item['longitude'])
+    pi.name = item['name']
+    pi.opening_time = item['opening_time']
+    pi.province = item['province']
+    pi.remark = item['remark']
+    pi.telephone = item['telephone'] 
+    return pi

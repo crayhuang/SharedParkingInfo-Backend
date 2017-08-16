@@ -3,6 +3,7 @@
 
 from flask import Flask
 from flask_restful import Api
+from flask_sqlalchemy import SQLAlchemy
 from services import ParkingInfoListAPI, ParkingInfoListSearchAPI, ParkingInfoAPI
 import database
 from models import ParkingInfo
