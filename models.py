@@ -32,7 +32,7 @@ class ParkingInfo(Base):
 	address = Column(String(2000))
 	longitude = Column(Numeric(16, 10))
 	latitude = Column(Numeric(16, 10))
-	fee = Column(String(100))
+	fee = Column(String(500))
 	remark = Column(String(2000))
 	opening_time = Column(String(200))
 	telephone = Column(String(100))
