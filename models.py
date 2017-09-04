@@ -8,7 +8,7 @@ class User(Base):
 	__tablename__ = 'users'
 	id = Column(Integer, primary_key=True)
 	nickname = Column(String(100))
-	open_id = Column(Text, unique=True)
+	open_id = Column(Text)
 	def __init__(self, nickename=None, open_id=None):
 		self.nickname = nickename
 		self.open_id = open_id
