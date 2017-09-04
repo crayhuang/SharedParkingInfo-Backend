@@ -4,3 +4,4 @@ sqlalchemy
 marshmallow
 flask-jsontools
 mysqlclient
+flask-sqlalchemy
