@@ -36,6 +36,11 @@ class ParkingInfoAPI(Resource):
     def put(self, parking_info_id):
         return None
 
+    def post(self, request):
+        parking_info = ParkingInfo(province=request.province, city=request.city, district=request.district, fee=request.fee)
+        session.add(parking_info)
+        return None
+
 def convert2parking_info(item):
     pi = ParkingInfo()
     pi.id = item['id']
