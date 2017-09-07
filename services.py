@@ -15,7 +15,7 @@ class ParkingInfoListAPI(Resource):
         cur_latitude = request.args.get('cur_latitude')
         cur_longitude = request.args.get('cur_longitude')
         temp = []
-        sql = text('select * from parking_info order by ACOS(SIN((:latitude * 3.1415) / 180 ) * SIN((:latitude * 3.1415) / 180 ) + COS((:latitude * 3.1415) / 180 ) * COS((latitude * 3.1415) / 180 ) * COS((:longitude * 3.1415) / 180 - (:longitude * 3.1415) / 180 ) ) * 6380  asc')
+        sql = text('select * from parking_info order by ACOS(SIN((:latitude * 3.1415) / 180 ) * SIN((:latitude * 3.1415) / 180 ) + COS((:latitude * 3.1415) / 180 ) * COS((latitude * 3.1415) / 180 ) * COS((:longitude * 3.1415) / 180 - (:longitude * 3.1415) / 180 ) ) * 6380  asc limit 500')
         result = database.engine.execute(sql, latitude = cur_latitude, longitude = cur_longitude)
         print(result)
         for item in result:
