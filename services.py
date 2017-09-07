@@ -24,22 +24,27 @@ class ParkingInfoListAPI(Resource):
         
         return jsonify(object = temp)
 
+    def post(self):
+        print(request.json)
+        # parking_info = ParkingInfo(province=request.province, city=request.city, district=request.district, fee=request.fee)
+        params = request.json
+        parking_info = ParkingInfo(province=params.get('province'), city=params.get('city'), district=params.get('district'), 
+        fee=params.get('fee'), address=params.get('address'))
+        session.add(parking_info)
+        session.commit()
+        return "Posting" 
+
+
 class ParkingInfoListSearchAPI(Resource):
     def get(self):
         return "Parking List Search API"
+
 
 class ParkingInfoAPI(Resource):
     def get(self, parking_info_id):
         parking_info = ParkingInfo.query.get(parking_info_id)
         return jsonify(object = parking_info.to_json())
 
-    def put(self, parking_info_id):
-        return None
-
-    def post(self, request):
-        parking_info = ParkingInfo(province=request.province, city=request.city, district=request.district, fee=request.fee)
-        session.add(parking_info)
-        return None
 
 def convert2parking_info(item):
     pi = ParkingInfo()

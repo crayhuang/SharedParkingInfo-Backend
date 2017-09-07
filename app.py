@@ -19,6 +19,7 @@ def hello():
 api.add_resource(ParkingInfoListAPI, '/api/v1.0/parking_infos')
 api.add_resource(ParkingInfoListSearchAPI, '/api/v1.0/parking_infos/search/<string:param>')
 api.add_resource(ParkingInfoAPI, '/api/v1.0/parking_infos/<int:parking_info_id>')
+# api.add_resource(ParkingInfoAPI, '/api/v1.0/parking_info')
 
 if __name__ == '__main__':
     database.init_db()
