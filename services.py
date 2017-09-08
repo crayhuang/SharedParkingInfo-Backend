@@ -28,8 +28,8 @@ class ParkingInfoListAPI(Resource):
         print(request.json)
         # parking_info = ParkingInfo(province=request.province, city=request.city, district=request.district, fee=request.fee)
         params = request.json
-        parking_info = ParkingInfo(province=params.get('province'), city=params.get('city'), district=params.get('district'), 
-        fee=params.get('fee'), address=params.get('address'))
+        parking_info = ParkingInfo(name=params.get('name'), province=params.get('province'), city=params.get('city'), 
+        district=params.get('district'), fee=params.get('fee'), address=params.get('address'), description=params.get('description'))
         session.add(parking_info)
         session.commit()
         return "Posting" 
