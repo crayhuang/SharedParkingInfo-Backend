@@ -7,11 +7,16 @@ from models import ParkingInfo
 import database
 from sqlalchemy.sql import text 
 from flask import request
+import auth
 
 session = database.db_session
 
+
+
 class ParkingInfoListAPI(Resource):
     def get(self):
+        # Signature Validation
+        auth.check_sign_api(request.args)
         cur_latitude = request.args.get('cur_latitude')
         cur_longitude = request.args.get('cur_longitude')
         temp = []
@@ -42,7 +47,10 @@ class ParkingInfoListSearchAPI(Resource):
 
 class ParkingInfoAPI(Resource):
     def get(self, parking_info_id):
+        auth.check_sign_api(request.args)
+        
         parking_info = ParkingInfo.query.get(parking_info_id)
+
         return jsonify(object = parking_info.to_json())
 
 
