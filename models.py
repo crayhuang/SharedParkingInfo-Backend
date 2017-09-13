@@ -36,9 +36,10 @@ class ParkingInfo(Base):
 	remark = Column(Text)
 	opening_time = Column(Text)
 	telephone = Column(String(100))
+	status = Column(String(50))
 
 	def __init__(self, name=None, description=None, province=None, city=None, district=None, address=None, longitude=0.0, latitude=0.0, 
-				fee=None, remark=None, opening_time=None, telephone=None):
+				fee=None, remark=None, opening_time=None, telephone=None, status='PENDING'):
 		self.name = name
 		self.description = description
 		self.province = province
@@ -51,6 +52,7 @@ class ParkingInfo(Base):
 		self.remark = remark
 		self.opening_time = opening_time
 		self.telephone = telephone
+		self.status = status
 		
 	
 	def to_json(self):
@@ -67,5 +69,6 @@ class ParkingInfo(Base):
 					'fee': self.fee,
 					'remark': self.remark,
 					'opening_time': self.opening_time,
-					'telephone': self.telephone
+					'telephone': self.telephone,
+					'status': self.status
 				}
