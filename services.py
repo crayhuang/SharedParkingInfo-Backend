@@ -22,10 +22,10 @@ class ParkingInfoListAPI(Resource):
         temp = []
         sql = text('select * from parking_info order by ACOS(SIN((:latitude * 3.1415) / 180 ) * SIN((:latitude * 3.1415) / 180 ) + COS((:latitude * 3.1415) / 180 ) * COS((latitude * 3.1415) / 180 ) * COS((:longitude * 3.1415) / 180 - (:longitude * 3.1415) / 180 ) ) * 6380  asc limit 500')
         result = database.engine.execute(sql, latitude = cur_latitude, longitude = cur_longitude)
-        print(result)
+        
         for item in result:
-            pi = convert2parking_info(item)
-            temp.append(pi.to_json())
+            parking_info = convert2parking_info(item)
+            temp.append(parking_info.to_json())
         
         return jsonify(object = temp)
 
@@ -44,7 +44,16 @@ class ParkingInfoListAPI(Resource):
 
 class ParkingInfoListSearchAPI(Resource):
     def get(self):
-        return "Parking List Search API"
+        keyword = request.args.get('keyword')
+        like_keyword = '%' + keyword + '%'
+        temp = []
+        result = ParkingInfo.query.filter(ParkingInfo.name.like(like_keyword) | ParkingInfo.description.like(like_keyword)).all()
+        for item in result:
+            print(item.id)
+            parking_info = convert2parking_info(item)
+            temp.append(parking_info.to_json())
+
+        return jsonify(object = temp)
 
 
 class ParkingInfoAPI(Resource):
@@ -58,17 +67,20 @@ class ParkingInfoAPI(Resource):
 
 def convert2parking_info(item):
     pi = ParkingInfo()
-    pi.id = item['id']
-    pi.address = item['address']
-    pi.city = item['city']
-    pi.description = item['description']
-    pi.district = item['district']
-    pi.fee = item['fee']
-    pi.latitude = str(item['latitude'])
-    pi.longitude = str(item['longitude'])
-    pi.name = item['name']
-    pi.opening_time = item['opening_time']
-    pi.province = item['province']
-    pi.remark = item['remark']
-    pi.telephone = item['telephone'] 
+
+    pi.id = item.id
+    pi.address = item.address
+    pi.city = item.city
+    pi.description = item.description
+    pi.district = item.district
+    pi.fee = item.fee
+    pi.latitude = str(item.latitude)
+    pi.longitude = str(item.longitude)
+    pi.name = item.name
+    pi.opening_time = item.opening_time
+    pi.province = item.province
+    pi.remark = item.remark
+    pi.telephone = item.telephone
+    pi.status = item.status
+
     return pi
