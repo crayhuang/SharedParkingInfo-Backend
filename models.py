@@ -15,10 +15,10 @@ class User(Base):
 
 	def to_json(self):
 		return {
-					'id': self.id,
-					'nickname': self.nickname,
-					'open_id': self.open_id
-			   }
+			'id': self.id,
+			'nickname': self.nickname,
+			'open_id': self.open_id
+		}
 
 
 class ParkingInfo(Base):
@@ -57,18 +57,18 @@ class ParkingInfo(Base):
 	
 	def to_json(self):
 		return {
-					'id': self.id,
-					'name': self.name,
-					'description': self.description,
-					'provice': self.province,
-					'city': self.city,
-					'district': self.district,
-					'address': self.address,
-					'longitude': str(self.longitude),
-					'latitude': str(self.latitude),
-					'fee': self.fee,
-					'remark': self.remark,
-					'opening_time': self.opening_time,
-					'telephone': self.telephone,
-					'status': self.status
-				}
+			'id': self.id,
+			'name': self.name,
+			'description': self.description,
+			'provice': self.province,
+			'city': self.city,
+			'district': self.district,
+			'address': self.address,
+			'longitude': str(self.longitude),
+			'latitude': str(self.latitude),
+			'fee': self.fee,
+			'remark': self.remark,
+			'opening_time': self.opening_time,
+			'telephone': self.telephone,
+			'status': self.status
+		}

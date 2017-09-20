@@ -17,10 +17,12 @@ class ParkingInfoListAPI(Resource):
     def get(self):
         # Signature Validation
         auth.check_sign_api(request.args)
-        cur_latitude = request.args.get('cur_latitude')
-        cur_longitude = request.args.get('cur_longitude')
+        cur_latitude = request.args.get('latitude')
+        cur_longitude = request.args.get('longitude')
         temp = []
-        sql = text('select * from parking_info order by ACOS(SIN((:latitude * 3.1415) / 180 ) * SIN((:latitude * 3.1415) / 180 ) + COS((:latitude * 3.1415) / 180 ) * COS((:latitude * 3.1415) / 180 ) * COS((:longitude * 3.1415) / 180 - (:longitude * 3.1415) / 180 ) ) * 6380  asc limit 500')
+        sql = text('select * from parking_info order by ACOS(SIN((:latitude * 3.1415) / 180 ) * SIN((latitude * 3.1415) / 180 ) + COS((latitude * 3.1415) / 180 ) * COS((:latitude * 3.1415) / 180 ) * COS((longitude * 3.1415) / 180 - (:longitude * 3.1415) / 180 ) ) * 6380  asc limit 500')
+        # sql = text('select * from parking_info order by (POWER(MOD(ABS(longitude-:longitude),360),2) + POWER(ABS(latitude-:latitude),2)) asc limit 500')
+        print(sql)
         result = database.engine.execute(sql, latitude = cur_latitude, longitude = cur_longitude)
         
         for item in result:
