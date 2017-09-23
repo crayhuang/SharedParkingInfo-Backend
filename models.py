@@ -4,20 +4,36 @@
 from sqlalchemy import Column, String, Numeric, Integer, Text
 from database import Base
 
-class User(Base):
-	__tablename__ = 'users'
+class UserInfo(Base):
+	__tablename__ = 'user_info'
 	id = Column(Integer, primary_key=True)
-	nickname = Column(String(100))
+	nick_name = Column(String(100))
 	open_id = Column(Text)
-	def __init__(self, nickename=None, open_id=None):
-		self.nickname = nickename
+	avatar_url = Column(Text)
+	gender = Column(Integer)
+	province = Column(String(100))
+	city = Column(String(100))
+	country = Column(String(100))
+	def __init__(self, nick_name=None, open_id=None, avatar_url=None, gender=0, 
+				province=None, city=None, country=None):
+		self.nick_name = nick_name
 		self.open_id = open_id
+		self.avatar_url = avatar_url
+		self.gender = gender
+		self.province = province
+		self.city = city
+		self.country = country
 
 	def to_json(self):
 		return {
 			'id': self.id,
-			'nickname': self.nickname,
-			'open_id': self.open_id
+			'nick_name': self.nick_name,
+			'open_id': self.open_id,
+			'avatar_url': self.avatar_url,
+			'gender': self.gender,
+			'province': self.province,
+			'city': self.city,
+			'country': self.country
 		}
 
 

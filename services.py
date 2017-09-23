@@ -3,7 +3,7 @@
 
 from flask_restful import Resource
 from flask import jsonify
-from models import ParkingInfo
+from models import ParkingInfo, UserInfo
 import database
 from sqlalchemy.sql import text 
 from flask import request
@@ -11,7 +11,18 @@ import auth
 
 session = database.db_session
 
+class UserInfoAPI(Resource):
+    def post(self):
+        params = request.json
+        print(params)
+        # auth.check_sign_api(params)
+        user_info = UserInfo(open_id=params.get('open_id'), nick_name=params.get('nick_name'), avatar_url=params.get('avatar_url'), gender=params.get('gender'), 
+                            province=params.get('province'), city=params.get('city'), country=params.get('country'))
 
+        session.add(user_info)
+        session.commit()
+
+        return "User Info"
 
 class ParkingInfoListAPI(Resource):
     def get(self):
