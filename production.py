@@ -7,13 +7,8 @@ from flask_sqlalchemy import SQLAlchemy
 from services import ParkingInfoListAPI, ParkingInfoListSearchAPI, ParkingInfoAPI, UserInfoAPI
 import database
 from models import ParkingInfo
-from OpenSSL import SSL
 
 import os
-
-# context = SSL.Context(SSL.TLSv1_2_METHOD)
-# cer = os.path.join(os.path.dirname(__file__), 'resources/gxtingche.com.crt')
-# key = os.path.join(os.path.dirname(__file__), 'resources/gxtingche.com.key')
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
