@@ -21,6 +21,7 @@ class UserInfoAPI(Resource):
 
         session.add(user_info)
         session.commit()
+        session.close()
 
         return "User Info"
 
@@ -52,6 +53,7 @@ class ParkingInfoListAPI(Resource):
         district=params.get('district'), fee=params.get('fee'), address=params.get('address'), description=params.get('description'))
         session.add(parking_info)
         session.commit()
+        session.close()
         return "Posting" 
 
 
