@@ -27,4 +27,4 @@ api.add_resource(ParkingInfoAPI, '/api/v1.0/parking_infos/<int:parking_info_id>'
 if __name__ == '__main__':
     database.init_db()
     context = ('resources/gxtingche.com.crt', 'resources/gxtingche.com.key')
-    app.run(host='0.0.0.0', port=443, debug=True, ssl_context=context)
+    app.run(host='0.0.0.0', port=443, debug=True, ssl_context=context, threaded=True)
