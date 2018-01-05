@@ -3,7 +3,7 @@
 
 from flask_restful import Resource
 from flask import jsonify
-from models import ParkingInfo, UserInfo
+from models import ParkingInfo, UserInfo, Feedback
 import database
 from sqlalchemy.sql import text 
 from flask import request
@@ -54,7 +54,7 @@ class ParkingInfoListAPI(Resource):
         session.add(parking_info)
         session.commit()
         session.close()
-        return "Posting" 
+        return "Posted" 
 
 
 class ParkingInfoListSearchAPI(Resource):
@@ -79,6 +79,17 @@ class ParkingInfoAPI(Resource):
 
         return jsonify(object = parking_info.to_json())
 
+
+class FeedbackAPI(Resource):
+    def post(self):
+        params = request.json
+        print(params)
+        auth.check_sign_api(params)
+        feedback = Feedback(parking_info_id=params.get('parking_info_id'), feedback_content=params.get('feedback_content'))
+        session.add(feedback)
+        session.commit()
+        session.close()
+        return "Posted"
 
 def convert2parking_info(item):
     pi = ParkingInfo()

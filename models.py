@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column, String, Numeric, Integer, Text
+from sqlalchemy import Column, String, Numeric, Integer, Text, DateTime
 from database import Base
+from datetime import date
 
 class UserInfo(Base):
 	__tablename__ = 'user_info'
@@ -87,4 +88,27 @@ class ParkingInfo(Base):
 			'opening_time': self.opening_time,
 			'telephone': self.telephone,
 			'status': self.status
+		}
+
+class Feedback(Base):
+	__tablename__ = 'feedback'
+	id = Column(Integer, primary_key=True, autoincrement=True)
+	parking_info_id = Column(Integer)
+	feedback_content = Column(Text)
+	created_time = Column(DateTime)
+	status = Column(String(50))
+
+	def __init__(self, parking_info_id=0, feedback_content=None, created_time=None, status='PENDING'):
+		self.parking_info_id = parking_info_id
+		self.feedback_content = feedback_content
+		self.created_time = date.today()
+		self.status = status
+
+	def to_json(self):
+		return {
+			'id': self.id,
+			'parking_info_id': self.parking_info_id,
+			'feedback_content': self.feedback_content,
+			'created_time': self.created_time,
+			'status': self.status	
 		}
