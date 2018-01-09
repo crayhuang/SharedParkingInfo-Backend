@@ -32,7 +32,7 @@ class ParkingInfoListAPI(Resource):
         cur_latitude = request.args.get('latitude')
         cur_longitude = request.args.get('longitude')
         temp = []
-        sql = text('select * from parking_info order by ACOS(SIN((:latitude * 3.1415) / 180 ) * SIN((latitude * 3.1415) / 180 ) + COS((latitude * 3.1415) / 180 ) * COS((:latitude * 3.1415) / 180 ) * COS((longitude * 3.1415) / 180 - (:longitude * 3.1415) / 180 ) ) * 6380  asc limit 500')
+        sql = text('select * from parking_info where status = %s order by ACOS(SIN((:latitude * 3.1415) / 180 ) * SIN((latitude * 3.1415) / 180 ) + COS((latitude * 3.1415) / 180 ) * COS((:latitude * 3.1415) / 180 ) * COS((longitude * 3.1415) / 180 - (:longitude * 3.1415) / 180 ) ) * 6380 asc limit 500' % "'APPROVED'")
         # sql = text('select * from parking_info order by (POWER(MOD(ABS(longitude-:longitude),360),2) + POWER(ABS(latitude-:latitude),2)) asc limit 500')
         print(sql)
         result = database.engine.execute(sql, latitude = cur_latitude, longitude = cur_longitude)
@@ -62,7 +62,7 @@ class ParkingInfoListSearchAPI(Resource):
         keyword = request.args.get('keyword')
         like_keyword = '%' + keyword + '%'
         temp = []
-        result = ParkingInfo.query.filter(ParkingInfo.name.like(like_keyword) | ParkingInfo.description.like(like_keyword)).all()
+        result = ParkingInfo.query.filter(ParkingInfo.status == 'APPROVED').filter(ParkingInfo.name.like(like_keyword) | ParkingInfo.description.like(like_keyword)).all()
         for item in result:
             print(item.id)
             parking_info = convert2parking_info(item)
