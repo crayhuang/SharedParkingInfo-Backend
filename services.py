@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from flask import jsonify, request
 from flask_restful import Resource
-from flask import jsonify
-from models import ParkingInfo, UserInfo, Feedback
-import database
-from sqlalchemy.sql import text 
-from flask import request
+from sqlalchemy.sql import text
+
 import auth
+import database
+from models import Feedback, ParkingInfo, UserInfo
 
 session = database.db_session
 

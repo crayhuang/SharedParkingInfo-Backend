@@ -3,8 +3,10 @@
 
 from flask import Flask
 from flask_restful import Api
-from services import ParkingInfoListAPI, ParkingInfoListSearchAPI, ParkingInfoAPI, UserInfoAPI,FeedbackAPI
+
 import database
+from services import (FeedbackAPI, ParkingInfoAPI, ParkingInfoListAPI,
+                      ParkingInfoListSearchAPI, UserInfoAPI)
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
