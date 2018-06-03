@@ -3,7 +3,7 @@
 
 from sqlalchemy import Column, String, Numeric, Integer, Text, DateTime
 from database import Base
-from datetime import date
+from datetime import date, datetime
 
 class UserInfo(Base):
 	__tablename__ = 'user_info'
@@ -25,7 +25,7 @@ class UserInfo(Base):
 		self.province = province
 		self.city = city
 		self.country = country
-		self.created_time = date.now() 
+		self.created_time = datetime.now() 
 
 	def to_json(self):
 		return {
