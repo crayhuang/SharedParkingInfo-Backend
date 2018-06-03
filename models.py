@@ -15,6 +15,7 @@ class UserInfo(Base):
 	province = Column(String(100))
 	city = Column(String(100))
 	country = Column(String(100))
+	created_time = Column(DateTime)
 	def __init__(self, nick_name=None, open_id=None, avatar_url=None, gender=0, 
 				province=None, city=None, country=None):
 		self.nick_name = nick_name
@@ -24,6 +25,7 @@ class UserInfo(Base):
 		self.province = province
 		self.city = city
 		self.country = country
+		self.created_time = date.now() 
 
 	def to_json(self):
 		return {
